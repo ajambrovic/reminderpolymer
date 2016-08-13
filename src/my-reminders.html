@@ -12,6 +12,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../../bower_components/paper-styles/paper-styles.html">
 <link rel="import" href="../../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../../../bower_components/polymer-paper-date-picker/paper-date-picker.html">
 
 <dom-module id="my-reminders">
 
@@ -42,6 +43,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                                 label="Detailed description"
                                 value="{{_data.description}}">
                 </paper-textarea>
+                <paper-date-picker id="date"
+                                   value="{{_data.date}}"
+                ></paper-date-picker>
             </form>
         </div>
 

@@ -140,6 +140,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         });
 
+        suite('date element', function() {
+
+            test('is defined', function() {
+                assert.isDefined(home.$.date);
+            });
+
+            test('binds to _data.data property', function() {
+                home._data = {date: '17/07/2017'};
+
+                assert.equal(home.$.date.value, home._data.date);
+            });
+        });
+
     });
 </script>
 
