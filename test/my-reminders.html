@@ -122,6 +122,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         });
 
+        suite('description element', function() {
+
+            test('is defined', function() {
+                assert.isDefined(home.$.description);
+            });
+
+            test('sets label', function() {
+                assert.equal(home.$.description.label, 'Detailed description');
+            });
+
+            test('binds to _data.description property', function() {
+                home._data = {description: 'Reminder detailed description'};
+
+                assert.equal(home.$.description.value, home._data.description);
+            });
+
+        });
+
     });
 </script>
 

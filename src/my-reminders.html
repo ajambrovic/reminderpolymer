@@ -11,6 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/paper-styles/paper-styles.html">
 <link rel="import" href="../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-textarea.html">
 
 <dom-module id="my-reminders">
 
@@ -37,6 +38,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                              required
                              error-message="Title is required">
                 </paper-input>
+                <paper-textarea id="description"
+                                label="Detailed description"
+                                value="{{_data.description}}">
+                </paper-textarea>
             </form>
         </div>
 
