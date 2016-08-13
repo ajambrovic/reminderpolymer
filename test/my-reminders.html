@@ -90,6 +90,38 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         });
 
+        suite('title element', function () {
+
+            test('is defined', function () {
+                assert.isDefined(home.$.title);
+            });
+
+            test('sets label', function () {
+                assert.equal(home.$.title.label, 'Title');
+            });
+
+            test('binds to _data.title property', function () {
+                home._data = {title: 'Title of the reminder'};
+
+                assert.equal(home.$.title.value, home._data.title);
+            });
+
+            test('sets auto-validate', function () {
+                assert.isTrue(home.$.title.autoValidate);
+            });
+
+            test('is required', function () {
+                home.$.title.value = '';
+
+                assert.isFalse(home.$.title.validate());
+            });
+
+            test('sets error message', function () {
+                assert.equal(home.$.title.errorMessage, 'Title is required');
+            });
+
+        });
+
     });
 </script>
 
