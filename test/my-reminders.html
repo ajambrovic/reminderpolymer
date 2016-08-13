@@ -11,38 +11,87 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <html>
 <head>
-  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-  <title>kart-home</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>kart-home</title>
 
-  <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-  <script src="../bower_components/web-component-tester/browser.js"></script>
+    <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../bower_components/web-component-tester/browser.js"></script>
 
-  <!-- Import the element to test -->
-  <link rel="import" href="../src/my-reminders.html">
+    <!-- Import the element to test -->
+    <link rel="import" href="../src/my-reminders.html">
 
 </head>
 <body>
 
-  <test-fixture id="basic">
+<test-fixture id="basic">
     <template>
-       <my-reminders></my-reminders>
+        <my-reminders></my-reminders>
     </template>
-  </test-fixture>
+</test-fixture>
 
-  <script>
-    suite('my-reminders tests', function() {
-      var home;
+<script>
+    suite('my-reminders tests', function () {
+        var home;
 
-      setup(function() {
-        home = fixture('basic');
-      });
+        setup(function () {
+            home = fixture('basic');
+        });
 
-      test('Number in circle should be 1', function() {
-        var circle = Polymer.dom(home.root).querySelector('.circle');
-        assert.equal(circle.textContent, '1');
-      })
+        suite('_data property', function () {
+
+            test('is defined', function () {
+                assert.isDefined(home._data);
+                assert.isObject(home._data);
+            });
+
+        });
+
+        suite('_id element', function () {
+
+            test('is defined', function () {
+                assert.isDefined(home.$._id);
+            });
+
+            test('sets label', function () {
+                assert.equal(home.$._id.label, 'ID');
+            });
+
+            test('binds to _data._id property', function () {
+                home._data = {_id: 123};
+
+                assert.equal(home.$._id.value, home._data._id);
+            });
+
+            test('sets auto-validate', function () {
+                assert.isTrue(home.$._id.autoValidate);
+            });
+
+            test('accepts only numbers', function () {
+                home.$._id.value = 'this is not a number';
+
+                assert.isFalse(home.$._id.validate());
+            });
+
+            test('does not accept leading 0', function () {
+                home.$._id.value = '0123';
+
+                assert.isFalse(home.$._id.validate());
+            });
+
+            test('is required', function () {
+                home.$._id.value = '';
+
+                assert.isFalse(home.$._id.validate());
+            });
+
+            test('sets error message', function () {
+                assert.equal(home.$._id.errorMessage, 'Must be a number');
+            });
+
+        });
+
     });
-  </script>
+</script>
 
 </body>
 </html>
