@@ -122,17 +122,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         });
 
-        suite('description element', function() {
+        suite('description element', function () {
 
-            test('is defined', function() {
+            test('is defined', function () {
                 assert.isDefined(home.$.description);
             });
 
-            test('sets label', function() {
+            test('sets label', function () {
                 assert.equal(home.$.description.label, 'Detailed description');
             });
 
-            test('binds to _data.description property', function() {
+            test('binds to _data.description property', function () {
                 home._data = {description: 'Reminder detailed description'};
 
                 assert.equal(home.$.description.value, home._data.description);
@@ -140,20 +140,39 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         });
 
-        suite('date element', function() {
+        suite('date element', function () {
 
-            test('is defined', function() {
+            test('is defined', function () {
                 assert.isDefined(home.$.date);
             });
 
-            test('binds to _data.data property', function() {
+            test('binds to _data.data property', function () {
                 home._data = {date: '17/07/2017'};
 
                 assert.equal(home.$.date.value, home._data.date);
             });
         });
 
+        suite('_storage property', function () {
+
+            test('is defined', function () {
+                assert.isDefined(home.storage);
+                assert.isString(home.storage);
+                assert.equal(home.storage, 'reminders');
+            });
+
+            test('can save', function () {
+                uid = new Date,
+                        storage = window.localStorage;
+                storage.setItem(home.storage, uid);
+                assert.equal(uid, storage.getItem(home.storage));
+                storage.removeItem(home.storage);
+            });
+        });
+
+
     });
+
 </script>
 
 </body>
