@@ -244,6 +244,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             })
         });
 
+        suite('delete element', function () {
+            test('delete function', function () {
+                var e = {
+                            model: {
+                                item: {
+                                    id: 'DeleteTitle',
+                                    title: 'Delete Title',
+                                    description: 'Description',
+                                    date: '06/08/2016'
+                                }
+                            }
+                        },
+                        dateFormatted = new Date(moment(e.model.item.date, home.dateFormat, true).format());
+
+                home.editReminder(e);
+                home.addReminder();
+                home.deleteReminder(e);
+
+                assert.isNull(document.querySelector('#' + e.model.item.id));
+
+
+            })
+        });
     });
 
 </script>

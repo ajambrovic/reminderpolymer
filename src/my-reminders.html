@@ -162,6 +162,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         e.model.item.date);
                 this.$.addReminderDialog.open();
             },
+            deleteReminder: function (e) {
+                var reminderId = e.model.item.id;
+                localStorage.removeItem(reminderId);
+                this.updateReminders();
+            }
 
         });
 
