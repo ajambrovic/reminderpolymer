@@ -110,6 +110,50 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     }
                 }
             },
+            ready: function () {
+                // populate the list after reloading page/app
+                this.updateReminders();
+            },
+            // updates reminders array after each operation
+            updateReminders: function () {
+                this.splice(this.storage, 0);
+                for (var id in localStorage) {
+                    object = JSON.parse(localStorage.getItem(id));
+                    var reminder = {
+                        id: object.id,
+                        title: object.title,
+                        description: object.description,
+                        date: moment(object.date).format(this.dateFormat)
+                    };
+                    this.push(this.storage, reminder);
+                }
+            },
+            setReminderDialogValues: function (id, title, description, date) {
+                this._data = {
+                    id: id,
+                    title: title,
+                    description: description,
+                    date: new Date(moment(date, this.dateFormat, true).format())
+                };
+            },
+            showAddReminderDialog: function () {
+                this.setReminderDialogValues('', '', '', new Date());
+                this.$.addReminderDialog.open();
+            },
+            addReminder: function () {
+                if (!this._data.id) {
+                    this._data.id = this._data.title.replace(/ /g, '');
+                }
+                var reminder = {
+                    id: this._data.id,
+                    title: this._data.title,
+                    description: this._data.description,
+                    date: moment(this._data.date).format()
+                };
+                localStorage.setItem(this._data.id, JSON.stringify(reminder));
+                this.updateReminders();
+                this.$.addReminderDialog.close();
+            },
 
         });
 
