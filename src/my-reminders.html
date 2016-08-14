@@ -142,6 +142,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             },
             addReminder: function () {
                 if (!this._data.id) {
+                    // generate ID from title by removing whitespace
                     this._data.id = this._data.title.replace(/ /g, '');
                 }
                 var reminder = {
