@@ -198,6 +198,52 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             })
         });
 
+        suite('edit element', function () {
+            test('edit function', function () {
+                var e1 = {
+                            model: {
+                                item: {
+                                    id: 'EditTitle',
+                                    title: 'Edit Title',
+                                    description: 'Description',
+                                    date: '06/08/2016'
+                                }
+                            }
+                        },
+                        e2 = {
+                            model: {
+                                item: {
+                                    id: 'EditTitle',
+                                    title: 'Edit Title2',
+                                    description: 'Description2',
+                                    date: '08/08/2016'
+                                }
+                            }
+                        },
+                        dateFormatted1 = new Date(moment(e1.model.item.date, home.dateFormat, true).format()),
+                        dateFormatted2 = new Date(moment(e2.model.item.date, home.dateFormat, true).format());
+
+                home.editReminder(e1);
+                home.addReminder();
+
+                var localStorageReminder = JSON.parse(localStorage.getItem(e1.model.item.id))
+
+
+                assert.equal(localStorageReminder.title, e1.model.item.title);
+                assert.equal(localStorageReminder.description, e1.model.item.description);
+                assert.equal(localStorageReminder.date, moment(dateFormatted1).format());
+
+                home.editReminder(e2);
+                home.addReminder();
+
+                localStorageReminder = JSON.parse(localStorage.getItem(e1.model.item.id));
+
+                assert.equal(localStorageReminder.title, e2.model.item.title);
+                assert.equal(localStorageReminder.description, e2.model.item.description);
+                assert.equal(localStorageReminder.date, moment(dateFormatted2).format());
+            })
+        });
+
     });
 
 </script>

@@ -154,6 +154,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 this.updateReminders();
                 this.$.addReminderDialog.close();
             },
+            editReminder: function (e) {
+                this.setReminderDialogValues(
+                        e.model.item.id,
+                        e.model.item.title,
+                        e.model.item.description,
+                        e.model.item.date);
+                this.$.addReminderDialog.open();
+            },
 
         });
 
