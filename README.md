@@ -7,6 +7,14 @@ to enter a title for the reminder (e.g. Pick up groceries), more detailed descri
 the reminder (e.g. groceries are to be picked up at Coles in KX) as well as the due date 
 (e.g. 17/07/2017). The user has to be able to save the reminder. 
 
+## Build
+
+Assuming you have installed node.js, git, bower and polymer-cli, check out the code from
+https://github.com/ajambrovic/reminderpolymer and run 
+
+    bower install
+    polymer serve
+
 ## Implemented functionalities
 
 * Add Reminder
