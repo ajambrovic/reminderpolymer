@@ -170,36 +170,46 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 assert.equal(home._data.description, description);
                 assert.equal(home._data.date.toString(), dateFormatted.toString());
             });
-            test('saving function', function () {
+            test('saving function', function (done) {
                 var id = 'SavingTitle',
                         title = 'Saving Title',
                         description = 'Description',
                         date = '06/08/2016',
                         dateFormatted = new Date(moment(date, home.dateFormat, true).format());
 
-                home.setReminderDialogValues(id, title, description, date);
-                home.addReminder();
-                var localStorageReminder = JSON.parse(localStorage.getItem(id));
-                assert.equal(localStorageReminder.title, title);
-                assert.equal(localStorageReminder.description, description);
-                assert.equal(localStorageReminder.date, moment(dateFormatted).format());
+                flush(function () {
+                    home.setReminderDialogValues(id, title, description, date);
+                    home.$.addReminderDialog.open();
+                    home.addReminder();
+
+                    var localStorageReminder = JSON.parse(localStorage.getItem(id));
+
+                    assert.equal(localStorageReminder.title, title);
+                    assert.equal(localStorageReminder.description, description);
+                    assert.equal(localStorageReminder.date, moment(dateFormatted).format());
+                    done();
+                });
+
             })
-            test('reminder display', function () {
+            test('reminder display', function (done) {
                 var id = 'SavingTitle',
                         title = 'Saving Title',
                         description = 'Description',
                         date = '06/08/2016',
                         dateFormatted = new Date(moment(date, home.dateFormat, true).format());
 
-                home.setReminderDialogValues(id, title, description, date);
-                home.addReminder();
-
-                assert.isNotNull(document.querySelector('#' + id));
+                flush(function () {
+                    home.setReminderDialogValues(id, title, description, date);
+                    home.$.addReminderDialog.open();
+                    home.addReminder();
+                    assert.isNotNull(document.querySelector('#' + id));
+                    done();
+                });
             })
         });
 
         suite('edit element', function () {
-            test('edit function', function () {
+            test('edit function', function (done) {
                 var e1 = {
                             model: {
                                 item: {
@@ -223,28 +233,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         dateFormatted1 = new Date(moment(e1.model.item.date, home.dateFormat, true).format()),
                         dateFormatted2 = new Date(moment(e2.model.item.date, home.dateFormat, true).format());
 
-                home.editReminder(e1);
-                home.addReminder();
+                flush(function () {
+                    home.editReminder(e1);
+                    home.addReminder();
 
-                var localStorageReminder = JSON.parse(localStorage.getItem(e1.model.item.id))
+                    var localStorageReminder = JSON.parse(localStorage.getItem(e1.model.item.id))
 
 
-                assert.equal(localStorageReminder.title, e1.model.item.title);
-                assert.equal(localStorageReminder.description, e1.model.item.description);
-                assert.equal(localStorageReminder.date, moment(dateFormatted1).format());
+                    assert.equal(localStorageReminder.title, e1.model.item.title);
+                    assert.equal(localStorageReminder.description, e1.model.item.description);
+                    assert.equal(localStorageReminder.date, moment(dateFormatted1).format());
 
-                home.editReminder(e2);
-                home.addReminder();
+                    home.editReminder(e2);
+                    home.addReminder();
 
-                localStorageReminder = JSON.parse(localStorage.getItem(e1.model.item.id));
+                    localStorageReminder = JSON.parse(localStorage.getItem(e1.model.item.id));
 
-                assert.equal(localStorageReminder.title, e2.model.item.title);
-                assert.equal(localStorageReminder.description, e2.model.item.description);
-                assert.equal(localStorageReminder.date, moment(dateFormatted2).format());
+                    assert.equal(localStorageReminder.title, e2.model.item.title);
+                    assert.equal(localStorageReminder.description, e2.model.item.description);
+                    assert.equal(localStorageReminder.date, moment(dateFormatted2).format());
+                    done();
+                });
+
+
             })
         });
 
-        suite('delete element', function () {
+        suite('delete element', function (done) {
             test('delete function', function () {
                 var e = {
                             model: {
@@ -258,13 +273,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         },
                         dateFormatted = new Date(moment(e.model.item.date, home.dateFormat, true).format());
 
-                home.editReminder(e);
-                home.addReminder();
-                home.deleteReminder(e);
+                flush(function () {
+                    home.editReminder(e);
+                    home.addReminder();
+                    home.deleteReminder(e);
 
-                assert.isNull(document.querySelector('#' + e.model.item.id));
-
-
+                    assert.isNull(document.querySelector('#' + e.model.item.id));
+                    done();
+                });
             })
         });
     });
