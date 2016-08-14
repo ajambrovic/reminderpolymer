@@ -32,8 +32,7 @@ Possible upgrades of the application could include implementing:
 * Application optimization (resource minification, Polymer build optimization etc.)
 * Adding a time component
 * Adding a more robust ID generating functionality (currently id's are Strings made from title)
-* Fixing the Datepicker component on mobile (it's an [open issue](https://github
-.com/bendavis78/paper-date-picker/issues/120#issuecomment-239686154)) or switching to another one
+* Fixing the Datepicker component on mobile (it's an [open issue](https://github.com/bendavis78/paper-date-picker/issues/120#issuecomment-239686154) ) or switching to another one
 * Analyze date handling, I believe there could be a simpler implementation than the current one
 * Switch to an interface when doing operations on the reminder instead of accessing localhost 
 directly (this is a prerequisite for a simpler switch to a backend)
