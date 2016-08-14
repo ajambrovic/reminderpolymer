@@ -37,6 +37,51 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             home = fixture('basic');
         });
 
+        suite('local storage', function () {
+
+            test('is defined', function () {
+                assert.isDefined(home.storage);
+                assert.isString(home.storage);
+                assert.equal(home.storage, 'reminders');
+            });
+
+            test('can save', function () {
+                uid = new Date,
+                        storage = window.localStorage;
+                storage.setItem(home.storage, uid);
+                assert.equal(uid, storage.getItem(home.storage));
+                storage.removeItem(home.storage);
+            });
+        });
+
+        suite('title property', function () {
+
+            test('is defined', function () {
+                assert.isDefined(home.title);
+                assert.isString(home.title);
+            });
+
+        });
+
+        suite('dateFormat property', function () {
+
+            test('is defined', function () {
+                assert.isDefined(home.dateFormat);
+                assert.isString(home.dateFormat);
+                assert.equal(home.dateFormat, 'DD/MM/YYYY');
+            });
+
+        });
+
+        suite('reminders property', function () {
+
+            test('is defined', function () {
+                assert.isDefined(home.reminders);
+                assert.isArray(home.reminders);
+            });
+
+        });
+
         suite('_data property', function () {
 
             test('is defined', function () {
@@ -103,26 +148,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             });
 
             test('binds to _data.data property', function () {
-                home._data = {date: '17/07/2017'};
-
-                assert.equal(home.$.date.value, home._data.date);
-            });
-        });
-
-        suite('_storage property', function () {
-
-            test('is defined', function () {
-                assert.isDefined(home.storage);
-                assert.isString(home.storage);
-                assert.equal(home.storage, 'reminders');
-            });
-
-            test('can save', function () {
-                uid = new Date,
-                        storage = window.localStorage;
-                storage.setItem(home.storage, uid);
-                assert.equal(uid, storage.getItem(home.storage));
-                storage.removeItem(home.storage);
+                home._data = {date: new Date('02/04/2015')};
+                assert.equal(home.$.date.date, home._data.date);
             });
         });
 

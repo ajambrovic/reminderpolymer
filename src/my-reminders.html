@@ -8,62 +8,106 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../bower_components/paper-styles/paper-styles.html">
-<link rel="import" href="../../../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../../../bower_components/paper-input/paper-textarea.html">
-<link rel="import" href="../../../bower_components/polymer-paper-date-picker/paper-date-picker.html">
+<link rel='import' href='../bower_components/polymer/polymer.html'/>
+
+<link rel='import' href='../bower_components/paper-toolbar/paper-toolbar.html'/>
+<link rel='import' href='../bower_components/paper-listbox/paper-listbox.html'/>
+<link rel='import' href='../bower_components/iron-icons/iron-icons.html'/>
+<link rel='import' href='../bower_components/paper-item/paper-item.html'/>
+<link rel='import' href='../bower_components/paper-fab/paper-fab.html'/>
+<link rel='import' href='../bower_components/paper-dialog/paper-dialog.html'/>
+<link rel='import' href='../bower_components/paper-button/paper-button.html'/>
+<link rel='import' href='../bower_components/paper-icon-button/paper-icon-button.html'/>
+<link rel='import' href='../bower_components/paper-input/paper-input.html'/>
+<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../bower_components/polymer-paper-date-picker/paper-date-picker.html">
 
 <dom-module id="my-reminders">
 
     <template>
-
-        <style>
-
-        </style>
+        <paper-toolbar>
+            <div class="title">{{ title }}</div>
+        </paper-toolbar>
 
         <div>
-            <form id="form">
-                <paper-input id="_id"
-                             label="ID"
-                             value="{{_data._id}}"
-                             auto-validate
-                             pattern="[1-9][0-9]*"
-                             required
-                             error-message="Must be a number">
-                </paper-input>
+            <paper-listbox>
+                <template is='dom-repeat' items='{{ reminders }}'>
+                    <paper-item>
+                        <span id="{{ item.id }}" class="flex">
+                            {{ item.title }} ( {{ item.date }} ) - {{ item.description }}
+                        </span>
+                        <span style="flex: 1;"></span>
+                        <paper-icon-button
+                                icon='assignment'
+                                class='flex-1'
+                                on-click='editReminder'>
+                        </paper-icon-button>
+                        <paper-icon-button
+                                icon='delete'
+                                class='flex-1'
+                                style='color: gray'
+                                on-click='deleteReminder'>
+                        </paper-icon-button>
+                    </paper-item>
+                </template>
+            </paper-listbox>
+
+            <paper-fab icon='add'
+                       style='position:absolute; bottom: 30px; right:24px'
+                       on-click='showAddReminderDialog'>
+            </paper-fab>
+
+            <paper-dialog id='addReminderDialog' class='paper-date-picker-dialog'>
                 <paper-input id="title"
                              label="Title"
-                             value="{{_data.title}}"
                              auto-validate
                              required
-                             error-message="Title is required">
+                             error-message="Title is required"
+                             value="{{_data.title}}">
                 </paper-input>
                 <paper-textarea id="description"
                                 label="Detailed description"
                                 value="{{_data.description}}">
                 </paper-textarea>
-                <paper-date-picker id="date"
-                                   value="{{_data.date}}"
-                ></paper-date-picker>
-            </form>
+                <paper-date-picker id="date" date="{{_data.date}}">
+                </paper-date-picker>
+                <div class='buttons'>
+                    <paper-button dialog-dismiss>Cancel</paper-button>
+                    <paper-button on-click='addReminder'>Add</paper-button>
+                </div>
+            </paper-dialog>
         </div>
-
     </template>
-
     <script>
 
         Polymer({
 
             is: 'my-reminders',
             properties: {
-                _data: {
-                    type: Object,
-                    value: {}
-                },
                 storage: {
                     type: String,
                     value: 'reminders'
+                },
+                title: {
+                    type: String,
+                    value: 'My reminders'
+                },
+                dateFormat: {
+                    type: String,
+                    value: 'DD/MM/YYYY'
+                },
+                reminders: {
+                    type: Array,
+                    value: []
+                },
+                _data: {
+                    type: Object,
+                    value: {
+                        id: '',
+                        title: '',
+                        description: '',
+                        date: new Date()
+                    }
                 }
             },
 
