@@ -45,7 +45,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         <paper-icon-button
                                 icon='delete'
                                 class='flex-1'
-                                style='color: gray'
+                                style='color: gray;'
                                 on-click='deleteReminder'>
                         </paper-icon-button>
                     </paper-item>
@@ -53,7 +53,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </paper-listbox>
 
             <paper-fab icon='add'
-                       style='position:absolute; bottom: 30px; right:24px'
+                       style='position:absolute; bottom: 30px; right:24px;'
                        on-click='showAddReminderDialog'>
             </paper-fab>
 
@@ -116,15 +116,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             },
             // updates reminders array after each operation
             updateReminders: function () {
+                var id;
+                var object;
+                var reminder;
                 this.splice(this.storage, 0);
-                for (var id in localStorage) {
+                for (id in localStorage) {
                     object = JSON.parse(localStorage.getItem(id));
-                    var reminder = {
-                        id: object.id,
-                        title: object.title,
-                        description: object.description,
-                        date: moment(object.date).format(this.dateFormat)
-                    };
+                    reminder = this._createReminderObject(object.id, object.title, object.description,
+                            object.date);
                     this.push(this.storage, reminder);
                 }
             },
@@ -138,39 +137,56 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             },
             showAddReminderDialog: function () {
                 this.setReminderDialogValues('', '', '', new Date());
+                this.openReminderDialog();
+            },
+            openReminderDialog: function () {
                 this.$.addReminderDialog.open();
             },
-            addReminder: function () {
+            closeReminderDialog: function () {
+                this.$.addReminderDialog.close();
+            },
+            _createReminderObject: function (id, title, description, date) {
+                return {
+                    id: id,
+                    title: title,
+                    description: description,
+                    date: moment(date).format()
+                };
+            },
+            _generateIdFromForm: function () {
                 if (!this._data.id) {
                     // generate ID from title by removing whitespace
                     this._data.id = this._data.title.replace(/ /g, '');
+                    while (localStorage[this._data.id]) {
+                        this._data.id += Math.round(Math.random() * 10);
+                    }
                 }
-                var reminder = {
-                    id: this._data.id,
-                    title: this._data.title,
-                    description: this._data.description,
-                    date: moment(this._data.date).format()
-                };
+            },
+            addReminder: function () {
+                this._generateIdFromForm();
+                var reminder = this._createReminderObject(
+                        this._data.id,
+                        this._data.title,
+                        this._data.description,
+                        this._data.date);
                 localStorage.setItem(this._data.id, JSON.stringify(reminder));
                 this.updateReminders();
-                this.$.addReminderDialog.close();
+                this.closeReminderDialog();
             },
             editReminder: function (e) {
+                var item = e.model.item;
                 this.setReminderDialogValues(
-                        e.model.item.id,
-                        e.model.item.title,
-                        e.model.item.description,
-                        e.model.item.date);
-                this.$.addReminderDialog.open();
+                        item.id,
+                        item.title,
+                        item.description,
+                        item.date);
+                this.openReminderDialog();
             },
             deleteReminder: function (e) {
                 var reminderId = e.model.item.id;
                 localStorage.removeItem(reminderId);
                 this.updateReminders();
             }
-
         });
-
     </script>
-
 </dom-module>
