@@ -36,3 +36,6 @@ Possible upgrades of the application could include implementing:
 * Analyze date handling, I believe there could be a simpler implementation than the current one
 * Switch to an interface when doing operations on the reminder instead of accessing localhost 
 directly (this is a prerequisite for a simpler switch to a backend)
+* Analyze why Firefox testing from CLI shows success, but no numbers, and why it fails in
+the browser. Suggestions like using HTMLImports.whenReady or addEventListener('WebComponentsReady')
+didn't help
